@@ -1,0 +1,50 @@
+# fly.toml file generated for natetodd on 2022-08-23T14:41:25-04:00
+
+app = "natetodd"
+kill_signal = "SIGINT"
+kill_timeout = 5
+processes = []
+
+[build]
+image = "ghost:5.10.1-alpine"
+
+[env]
+database__client = "sqlite3"
+database__connection__filename = "/var/lib/ghost/content/data/ghost.db"
+database__debug = "false"
+database__useNullAsDefault = "true"
+url = "https://natetodd.com"
+
+[experimental]
+allowed_public_ports = []
+auto_rollback = true
+
+[mounts]
+destination = "/var/lib/ghost/content"
+source = "data"
+
+[[services]]
+http_checks = []
+internal_port = 2368
+processes = ["app"]
+protocol = "tcp"
+script_checks = []
+[services.concurrency]
+hard_limit = 25
+soft_limit = 20
+type = "connections"
+
+[[services.ports]]
+force_https = true
+handlers = ["http"]
+port = 80
+
+[[services.ports]]
+handlers = ["tls", "http"]
+port = 443
+
+[[services.tcp_checks]]
+grace_period = "1s"
+interval = "15s"
+restart_limit = 0
+timeout = "2s"
