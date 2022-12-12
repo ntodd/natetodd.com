@@ -6,7 +6,7 @@ kill_timeout = 5
 processes = []
 
 [build]
-image = "ghost:5.10.1-alpine"
+image = "ghost:5.25.2-alpine"
 
 [env]
 database__client = "sqlite3"
